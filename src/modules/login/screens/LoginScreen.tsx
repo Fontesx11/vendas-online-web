@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 
 import ButtonBasic from '../../../shared/buttons/button/Button';
@@ -12,17 +13,25 @@ import {
 } from '../styles/loginScreen.styles';
 
 const LoginScreen = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
-    console.log(username);
+  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
   };
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
     console.log(password);
+  };
+
+  const handleLogin = async () => {
+    await axios
+      .post('http://localhost:8080/auth', {
+        email: email,
+        password: password,
+      })
+      .then((res) => console.log(res));
   };
 
   return (
@@ -38,8 +47,8 @@ const LoginScreen = () => {
               <InputBasic
                 title="Usuario"
                 margin="32px 0px 0px"
-                onChange={handleUsername}
-                value={username}
+                onChange={handleEmail}
+                value={email}
               />
               <InputBasic
                 type="password"
@@ -48,7 +57,7 @@ const LoginScreen = () => {
                 onChange={handlePassword}
                 value={password}
               />
-              <ButtonBasic margin="64px 0px 16px 0px" type="primary">
+              <ButtonBasic margin="64px 0px 16px 0px" type="primary" onClick={handleLogin}>
                 Entrar
               </ButtonBasic>
             </LimitedContainer>
