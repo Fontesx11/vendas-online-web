@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { useState } from 'react';
 
-import ButtonBasic from '../../../shared/buttons/button/Button';
-import SVGLogo from '../../../shared/icons/SVGLogo';
-import InputBasic from '../../../shared/inputs/input/input';
+import ButtonBasic from '../../../shared/components/buttons/button/Button';
+import SVGLogo from '../../../shared/components/icons/SVGLogo';
+import InputBasic from '../../../shared/components/inputs/input/input';
+import { useRequest } from '../../../shared/hooks/useResquest';
 import {
   BackgroundImage,
   ContainerLogin,
@@ -15,6 +15,7 @@ import {
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { postRequest, loading } = useRequest();
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -26,12 +27,10 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    await axios
-      .post('http://localhost:8080/auth', {
-        email: email,
-        password: password,
-      })
-      .then((res) => console.log(res));
+    postRequest('http://localhost:8080/auth', {
+      email: email,
+      password: password,
+    });
   };
 
   return (
@@ -57,7 +56,12 @@ const LoginScreen = () => {
                 onChange={handlePassword}
                 value={password}
               />
-              <ButtonBasic margin="64px 0px 16px 0px" type="primary" onClick={handleLogin}>
+              <ButtonBasic
+                loading={loading}
+                margin="64px 0px 16px 0px"
+                type="primary"
+                onClick={handleLogin}
+              >
                 Entrar
               </ButtonBasic>
             </LimitedContainer>
