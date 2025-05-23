@@ -1,18 +1,23 @@
-import axios from 'axios';
 import { useState } from 'react';
 
+import { connectionAPIGet, connectionAPIPost } from '../functions/connection/connectionAPI';
 import { useGlobalContext } from './useGlobalContext';
 
 export const useRequest = () => {
   const [loading, setLoading] = useState(false);
   const { setNotification } = useGlobalContext();
 
-  const postRequest = async (url: string, body: unknown) => {
+  const postRequest = async <T>(url: string, body: unknown): Promise<T | undefined> => {
     setLoading(true);
-    const returnData = await axios
-      .post(url, body)
-      .then(() => setNotification('Logado com sucesso', 'success', 'lalalala'))
-      .catch(() => setNotification('Senha Invalida', 'error', 'lalalala'));
+    const returnData = await connectionAPIPost<T>(url, body)
+      .then((res) => {
+        setNotification('Logou com sucsso', 'success');
+        return res;
+      })
+      .catch((error: Error) => {
+        setNotification(error.message, 'error');
+        return undefined;
+      });
 
     setLoading(false);
     return returnData;
@@ -20,10 +25,7 @@ export const useRequest = () => {
 
   const getRequest = async (url: string) => {
     setLoading(true);
-    const returnData = await axios
-      .get(url)
-      .then((res) => console.log(res))
-      .catch((err) => alert(err));
+    const returnData = await connectionAPIGet(url);
 
     setLoading(false);
     return returnData;
