@@ -6,7 +6,10 @@ import { ProductRoutesEnum } from '../../modules/product/routes';
 import { ERROR_INVALID_PASSWORD } from '../constants/errosStatus';
 import { URL_AUTH } from '../constants/urls';
 import { setAuthrizationToken } from '../functions/connection/auth';
-import { connectionAPIGet, connectionAPIPost } from '../functions/connection/connectionAPI';
+import ConnectionAPI, {
+  connectionAPIPost,
+  type MethodType,
+} from '../functions/connection/connectionAPI';
 import { useGlobalContext } from './useGlobalContext';
 
 export const useRequest = () => {
@@ -48,17 +51,32 @@ export const useRequest = () => {
     setLoading(false);
   };
 
-  const getRequest = async (url: string) => {
+  const request = async <T>(
+    url: string,
+    method: MethodType,
+    saveGlobal?: (object: T) => void,
+    body?: unknown,
+  ): Promise<T | undefined> => {
     setLoading(true);
-    const returnData = await connectionAPIGet(url);
+    const returnObject: T | undefined = await ConnectionAPI.connect<T>(url, method, body)
+      .then((result) => {
+        if (saveGlobal) {
+          saveGlobal(result);
+        }
+        return result;
+      })
+      .catch((error: Error) => {
+        setNotification(error.message, 'error');
+        return undefined;
+      });
 
     setLoading(false);
-    return returnData;
+    return returnObject;
   };
 
   return {
     loading,
-    getRequest,
+    request,
     postRequest,
     authRequest,
   };
