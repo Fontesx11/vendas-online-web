@@ -17,22 +17,6 @@ export const useRequest = () => {
   const { setNotification, setUser } = useGlobalContext();
   const navigate = useNavigate();
 
-  const postRequest = async <T>(url: string, body: unknown): Promise<T | undefined> => {
-    setLoading(true);
-    const returnData = await connectionAPIPost<T>(url, body)
-      .then((res) => {
-        setNotification('Logou com sucsso', 'success');
-        return res;
-      })
-      .catch((error: Error) => {
-        setNotification(error.message, 'error');
-        return undefined;
-      });
-
-    setLoading(false);
-    return returnData;
-  };
-
   const authRequest = async (body: unknown): Promise<void> => {
     setLoading(true);
 
@@ -77,7 +61,6 @@ export const useRequest = () => {
   return {
     loading,
     request,
-    postRequest,
     authRequest,
   };
 };
