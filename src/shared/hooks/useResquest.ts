@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 
 import type { AuthType } from '../../modules/login/types/AuthType';
 import { ProductRoutesEnum } from '../../modules/product/routes';
@@ -16,9 +15,8 @@ export const useRequest = () => {
   const [loading, setLoading] = useState(false);
   const { setNotification, setUser } = useGlobalContext();
 
-  const authRequest = async (body: unknown): Promise<void> => {
+  const authRequest = async (body: unknown, navigate: (path: string) => void): Promise<void> => {
     setLoading(true);
-    const navigate = useNavigate();
 
     await connectionAPIPost<AuthType>(URL_AUTH, body)
       .then((res) => {
