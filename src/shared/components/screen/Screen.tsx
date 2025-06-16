@@ -1,3 +1,4 @@
+import { Divider } from 'antd';
 import type React from 'react';
 
 import Breadcrumb, { type ListBreadcrumb } from '../breadcrumb/Breadcrumb';
@@ -11,7 +12,12 @@ interface ScreenProps {
 const Screen = ({ children, listBreadcrumb }: ScreenProps) => {
   return (
     <ScreenContainer>
-      {listBreadcrumb && <Breadcrumb listBreadcrumb={listBreadcrumb} />}
+      {listBreadcrumb && (
+        <>
+          <Breadcrumb listBreadcrumb={listBreadcrumb} />
+          <Divider />
+        </>
+      )}
       {children}
     </ScreenContainer>
   );
