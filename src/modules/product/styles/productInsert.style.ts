@@ -5,4 +5,8 @@ export const LimetedContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  & button {
+    margin-top: 12px;
+  }
 `;
