@@ -10,3 +10,9 @@ export const LimetedContainer = styled.div`
     margin-top: 12px;
   }
 `;
+
+export const ProductInsertContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
