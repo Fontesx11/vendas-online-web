@@ -66,7 +66,6 @@ const Product = () => {
   };
 
   const onSearch = (value: string) => {
-    console.log('wdwd');
     if (!value) {
       setProductsFilterd([...products]);
     } else {

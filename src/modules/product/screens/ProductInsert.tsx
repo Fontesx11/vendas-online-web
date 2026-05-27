@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import ButtonBasic from '../../../shared/components/buttons/button/Button';
 import InputBasic from '../../../shared/components/inputs/input/input';
+import InputMoney from '../../../shared/components/inputs/inputMoney/inputMoney';
 import Select from '../../../shared/components/inputs/select/Select';
 import Screen from '../../../shared/components/screen/Screen';
 import { DisplayFlexJustifyRight } from '../../../shared/components/styles/display.styled';
@@ -39,7 +40,7 @@ const ProductInsert = () => {
   }, []);
 
   const handleInsetProduct = async () => {
-    await connectionAPIPost(URL_PRODUCT + 'owuadhwiuh', product)
+    await connectionAPIPost(URL_PRODUCT, product)
       .then(() => {
         setNotification('Sucesso', 'success', 'Produto inserido com sucesso!');
         navigate(ProductRoutesEnum.PRODUCT);
@@ -89,13 +90,13 @@ const ProductInsert = () => {
           />
           <InputBasic
             onChange={(event) => onChange(event, 'image')}
-            value={product.image}
             title="Url imagem"
             placeholder="Url imagem"
           />
-          <InputBasic
+          <InputMoney
             onChange={(event) => onChange(event, 'price')}
             value={product.price}
+            addonBefore="R$"
             title="Preço"
             placeholder="Preço"
           />
