@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ButtonBasic from '../../../shared/components/buttons/button/Button';
@@ -8,13 +8,11 @@ import Select from '../../../shared/components/inputs/select/Select';
 import Screen from '../../../shared/components/screen/Screen';
 import { DisplayFlexJustifyRight } from '../../../shared/components/styles/display.styled';
 import { LimitedContainer } from '../../../shared/components/styles/limited.styled';
-import { URL_CATEGORY, URL_PRODUCT } from '../../../shared/constants/urls';
-import type { InsertProduct } from '../../../shared/dtos/InsertProduct.dto';
+import { URL_CATEGORY } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
-import { connectionAPIPost } from '../../../shared/functions/connection/connectionAPI';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
-import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequest } from '../../../shared/hooks/useResquest';
+import useInsertProduct from '../hooks/useInsertProduct';
 import { ProductRoutesEnum } from '../routes';
 import {
   LimetedContainer as LimetedContainerInsert,
@@ -22,14 +20,18 @@ import {
 } from '../styles/productInsert.style';
 
 const ProductInsert = () => {
-  const [product, setProduct] = useState<InsertProduct>({
-    name: '',
-    image: '',
-    price: 0,
-  });
+
   const { categories, setCategories } = useDataContext();
-  const { setNotification } = useGlobalContext();
   const { request } = useRequest();
+
+  const {
+    loading,
+    diasabledButton,
+    handleInsetProduct,
+    onChangeInput,
+    handleChangeSelect,
+    product,
+  } = useInsertProduct()
 
   const navigate = useNavigate();
 
@@ -39,28 +41,7 @@ const ProductInsert = () => {
     }
   }, []);
 
-  const handleInsetProduct = async () => {
-    await connectionAPIPost(URL_PRODUCT, product)
-      .then(() => {
-        setNotification('Sucesso', 'success', 'Produto inserido com sucesso!');
-        navigate(ProductRoutesEnum.PRODUCT);
-      })
-      .catch((error) => {
-        setNotification(error.message, 'error');
-      });
-  };
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>, nameObject: string) => {
-    setProduct({
-      ...product,
-      [nameObject]: nameObject === 'price' ? Number(event.target.value) : event.target.value,
-    });
-  };
-
-  const handleChange = (value: string) => {
-    setProduct({ ...product, categoryId: Number(value) });
-    console.log(`selected ${value}`);
-  };
 
   const handleOnClickCancel = () => {
     navigate(ProductRoutesEnum.PRODUCT);
@@ -83,18 +64,18 @@ const ProductInsert = () => {
       <ProductInsertContainer>
         <LimetedContainerInsert>
           <InputBasic
-            onChange={(event) => onChange(event, 'name')}
+            onChange={(event) => onChangeInput(event, 'name')}
             value={product.name}
             title="Nome"
             placeholder="Nome do produto"
           />
           <InputBasic
-            onChange={(event) => onChange(event, 'image')}
+            onChange={(event) => onChangeInput(event, 'image')}
             title="Url imagem"
             placeholder="Url imagem"
           />
           <InputMoney
-            onChange={(event) => onChange(event, 'price')}
+            onChange={(event) => onChangeInput(event, 'price')}
             value={product.price}
             addonBefore="R$"
             title="Preço"
@@ -104,7 +85,7 @@ const ProductInsert = () => {
           <Select
             title="Categoria"
             style={{ width: '100%' }}
-            onChange={handleChange}
+            onChange={handleChangeSelect}
             options={categories.map((category) => ({
               value: `${category.id}`,
               label: `${category.name}`,
@@ -118,7 +99,7 @@ const ProductInsert = () => {
             </LimitedContainer>
 
             <LimitedContainer width={120}>
-              <ButtonBasic onClick={handleInsetProduct} type="primary">
+              <ButtonBasic onClick={handleInsetProduct} type="primary" loading={loading} disabled={diasabledButton}>
                 Inserir Produto
               </ButtonBasic>
             </LimitedContainer>

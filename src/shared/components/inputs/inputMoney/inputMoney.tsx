@@ -32,7 +32,7 @@ const InputMoney = ({ value, onChange, addonBefore, ...props }: InputMoneyProps)
 
     const newValue = [
       cleanValue.slice(0,sizeSlice),
-      '.',
+      '.', 
        cleanValue.slice(sizeSlice)
     ].join('')
 
