@@ -2,6 +2,7 @@ import { Divider } from 'antd';
 import type React from 'react';
 
 import Breadcrumb, { type ListBreadcrumb } from '../breadcrumb/Breadcrumb';
+import Menu from '../menu/Menu';
 import { ScreenContainer } from './screen.style';
 
 interface ScreenProps {
@@ -12,6 +13,7 @@ interface ScreenProps {
 const Screen = ({ children, listBreadcrumb }: ScreenProps) => {
   return (
     <ScreenContainer>
+      <Menu />
       {listBreadcrumb && (
         <>
           <Breadcrumb listBreadcrumb={listBreadcrumb} />

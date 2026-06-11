@@ -20,7 +20,6 @@ import {
 } from '../styles/productInsert.style';
 
 const ProductInsert = () => {
-
   const { categories, setCategories } = useDataContext();
   const { request } = useRequest();
 
@@ -31,7 +30,7 @@ const ProductInsert = () => {
     onChangeInput,
     handleChangeSelect,
     product,
-  } = useInsertProduct()
+  } = useInsertProduct();
 
   const navigate = useNavigate();
 
@@ -40,8 +39,6 @@ const ProductInsert = () => {
       request(URL_CATEGORY, MethodsEnum.GET, setCategories);
     }
   }, []);
-
-
 
   const handleOnClickCancel = () => {
     navigate(ProductRoutesEnum.PRODUCT);
@@ -99,7 +96,12 @@ const ProductInsert = () => {
             </LimitedContainer>
 
             <LimitedContainer width={120}>
-              <ButtonBasic onClick={handleInsetProduct} type="primary" loading={loading} disabled={diasabledButton}>
+              <ButtonBasic
+                onClick={handleInsetProduct}
+                type="primary"
+                loading={loading}
+                disabled={diasabledButton}
+              >
                 Inserir Produto
               </ButtonBasic>
             </LimitedContainer>
