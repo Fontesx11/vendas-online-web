@@ -15,8 +15,8 @@ const InputMoney = ({ value, onChange, addonBefore, ...props }: InputMoneyProps)
 
   useEffect(() => {
     const valorString = `${value}`;
-    console.log('valorString', valorString)
-    console.log('value', value)
+    console.log('valorString', valorString);
+    console.log('value', value);
 
     if (!/\D/.test(valorString.replace('.', ''))) {
       setCurrentValue(value.toFixed(DECIMAL_SIZE).toString().replace('.', ','));
@@ -26,22 +26,22 @@ const InputMoney = ({ value, onChange, addonBefore, ...props }: InputMoneyProps)
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
-    const cleanValue = value.replace(',','');
+    const cleanValue = value.replace(',', '');
 
-    const sizeSlice = cleanValue.length - DECIMAL_SIZE
+    const sizeSlice = cleanValue.length - DECIMAL_SIZE;
 
-    const newValue = [
-      cleanValue.slice(0,sizeSlice),
-      '.', 
-       cleanValue.slice(sizeSlice)
-    ].join('')
+    const newValue = [cleanValue.slice(0, sizeSlice), '.', cleanValue.slice(sizeSlice)].join('');
 
-    onChange({...event, target:{...event.target, value: newValue}})
-
-  }
+    onChange({ ...event, target: { ...event.target, value: newValue } });
+  };
 
   return (
-    <InputBasic addonBefore={addonBefore} onChange={handleOnChange} value={currentValue} {...props} />
+    <InputBasic
+      addonBefore={addonBefore}
+      onChange={handleOnChange}
+      value={currentValue}
+      {...props}
+    />
   );
 };
 
