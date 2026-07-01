@@ -3,6 +3,7 @@ import { Menu as MenuAntd } from 'antd';
 import { House, PackageOpen } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
+import { CategoryRoutesEnum } from '../../../modules/category/routes';
 import { ProductRoutesEnum } from '../../../modules/product/routes';
 import { ConatinerLogoName, LogoMenu, MenuContainer, NameCompany } from './menu.style';
 
@@ -40,12 +41,12 @@ const Menu = () => {
         {
           key: 'category_view',
           label: 'Visualizar',
-          onClick: () => navigate(ProductRoutesEnum.PRODUCT),
+          onClick: () => navigate(CategoryRoutesEnum.CATEGORY),
         },
         {
           key: 'category_insert',
           label: 'Inserir',
-          onClick: () => navigate(ProductRoutesEnum.PRODUCT_INSERT),
+          onClick: () => navigate(CategoryRoutesEnum.CATEGORY_INSERT),
         },
       ],
     },

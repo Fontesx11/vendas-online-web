@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { createBrowserRouter, type RouteObject, RouterProvider } from 'react-router-dom';
 
+import { categoryScreens } from './modules/category/routes';
 import { firstScreenRoutes } from './modules/firstScreen/routes';
 import { loginRoutes } from './modules/login/routes';
 import { productScreens } from './modules/product/routes';
@@ -12,7 +13,11 @@ import { useNotification } from './shared/hooks/useNotifcation';
 import { useRequest } from './shared/hooks/useResquest';
 
 const routes: RouteObject[] = [...loginRoutes];
-const routesLoggedIn: RouteObject[] = [...productScreens, ...firstScreenRoutes].map((route) => ({
+const routesLoggedIn: RouteObject[] = [
+  ...productScreens,
+  ...categoryScreens,
+  ...firstScreenRoutes,
+].map((route) => ({
   ...route,
   loader: verifyLoggedIn,
 }));
